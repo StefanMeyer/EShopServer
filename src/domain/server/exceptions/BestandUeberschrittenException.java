@@ -6,10 +6,11 @@ package domain.server.exceptions;
  */
 
 public class BestandUeberschrittenException extends Exception {
-	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -4064368449252500212L;
 
 	public BestandUeberschrittenException() {
 		super("Bestand ueberschritten!");
+		System.out.println("[Server] Bestand ueberschritten!");
 	}
 }

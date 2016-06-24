@@ -17,7 +17,6 @@ public class ArtikelExistiertBereitsException extends Exception {
 	 * @param zusatzMsg zusaetzlicher Text fuer die Fehlermeldung
 	 */
 	public ArtikelExistiertBereitsException(/*Artikel artikel*/) {
-
 		super("Artikel existiert bereits.");
 	}
 }

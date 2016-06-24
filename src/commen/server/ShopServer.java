@@ -147,7 +147,7 @@ public class ShopServer extends Server {
 		registerMethod("PRUEFEKAUF", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
-				shop.pruefeKauf((Kunde) data.get(1)); 
+				sendMessage(new Datapackage("DATA",shop.pruefeKauf((Kunde) data.get(1))), socket); 
 			}			
 		});
 		registerMethod("SCHREIBEARTIKELDATEN", new Executable() {

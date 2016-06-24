@@ -11,5 +11,6 @@ public class AccountExistiertNichtException extends Exception {
 
 	public AccountExistiertNichtException(String name, String pwd) {
 		super("Account mit Name" + name + " oder Passwort nicht gefunden!");
+		System.out.println("[Server] Account mit Name" + name + " oder Passwort nicht gefunden!");
 	}
 }

@@ -6,12 +6,8 @@ package domain.server.exceptions;
  */
 
 public class ArtikelExistiertNichtException extends Exception {
-	
-	/**
-	 * dadurch geht der gelbe Hinweis weg ;)
-	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 7501391787959597997L;
+
 	/**
 	 * Konstruktor
 	 * 
@@ -19,5 +15,6 @@ public class ArtikelExistiertNichtException extends Exception {
 	 */
 	public ArtikelExistiertNichtException(int nummer) {
 		super("Artikel mit der Nummer " + nummer + " nicht gefunden.");
+		System.out.println("Artikel mit der Nummer " + nummer + " nicht gefunden.");
 	}
 }

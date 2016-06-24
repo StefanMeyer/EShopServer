@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import domain.server.Artikelverwaltung;
 import domain.server.exceptions.AccountExistiertBereitsException;
@@ -138,8 +139,31 @@ public class Shopverwaltung implements Serializable{
 	//Methode zur Ueberpruefung des Warenkorbs zum Kauf (Bestandsabfragen etc.)
 	
 	public HashMap<Artikel, Integer> pruefeKauf(Kunde user) {
-		HashMap<Artikel, Integer> fehlerliste = new HashMap<Artikel, Integer>();	
-		return fehlerliste;
+		HashMap<Artikel, Integer> fehlerliste = new HashMap<Artikel, Integer>();
+		HashMap<Artikel, Integer> pruefkorb = user.getWarenkorb().getInhalt();
+		if (!pruefkorb.isEmpty()){
+			Set<Artikel> articles = pruefkorb.keySet();
+			for(Artikel artikel : articles) {
+				int anzahl = (Integer) pruefkorb.get(artikel);
+				if ((artikel.getBestand() - anzahl) < 0) {
+					//user.getWarenkorb().loeschen(artikel);
+					fehlerliste.put(artikel, anzahl);
+				}
+				else {
+					if (artikel.getPackungsgroesse() > 0 && anzahl%artikel.getPackungsgroesse() != 0) {
+						//user.getWarenkorb().loeschen(artikel);
+						fehlerliste.put(artikel, anzahl);
+					}
+				}				
+			}
+			if (!fehlerliste.isEmpty()) {
+				Set<Artikel> articlos = fehlerliste.keySet();
+				for(Artikel artikel : articlos) {
+					user.getWarenkorb().loeschen(artikel);
+				}
+			}
+		}	
+		return fehlerliste;		
 	}
 
 	//Methode zur Kaufabwicklung
@@ -215,14 +239,14 @@ public class Shopverwaltung implements Serializable{
 	public Kunde inWarenkorbEinfuegen(Artikel art, int anzahl, Kunde kunde) throws BestandUeberschrittenException, ArtikelExistiertNichtException {
 		Warenkorb warenkorb = kunde.getWarenkorb();		
 		warenkorb.einfuegen(art, anzahl);
-		setWarenkorb(kunde, warenkorb);
+		kunde.setWarenkorb(warenkorb);
 		return kunde;
 	}
 	//Warenkorn einfuegen
 	public Kunde ausWarenkorbloechen(Artikel art, Kunde kunde) throws ArtikelExistiertNichtException {
 		Warenkorb warenkorb = kunde.getWarenkorb();		
 		warenkorb.loeschen(art);
-		setWarenkorb(kunde, warenkorb);
+		kunde.setWarenkorb(warenkorb);
 		return kunde;
 	}	
 	// Artikel suchen.
@@ -258,7 +282,8 @@ public class Shopverwaltung implements Serializable{
 	public Warenkorb getWarenkorb(Kunde kunde) {
 		return kunde.getWarenkorb();
 	}
-	public void setWarenkorb(Kunde kunde, Warenkorb warenkorb) {
+	public Kunde setWarenkorb(Kunde kunde, Warenkorb warenkorb) {
 		kunde.setWarenkorb(warenkorb);
+		return kunde;
 	}
 }
