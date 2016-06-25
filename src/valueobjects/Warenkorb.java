@@ -17,10 +17,6 @@ import java.util.List;
 // -> typ -> Enumeration (ANGELEGT, BESTAND_ERHOET, ... )
 
 public class Warenkorb implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -624627391885907928L;
 	// Verwaltung des Warenkorbbestands als Liste
 	private HashMap<Artikel, Integer> inhalt = new HashMap<Artikel, Integer>();
@@ -33,6 +29,7 @@ public class Warenkorb implements Serializable{
 
 	public void loeschen(Artikel artikel) {
 		inhalt.remove(artikel);
+		System.out.println(inhalt);
 	}
 
 	public void leeren() {

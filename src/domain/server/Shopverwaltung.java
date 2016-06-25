@@ -242,8 +242,8 @@ public class Shopverwaltung implements Serializable{
 		kunde.setWarenkorb(warenkorb);
 		return kunde;
 	}
-	//Warenkorn einfuegen
-	public Kunde ausWarenkorbloechen(Artikel art, Kunde kunde) throws ArtikelExistiertNichtException {
+	//aus Warenkorb löschen
+	public Kunde ausWarenkorbloechen(Artikel art, Kunde kunde) {
 		Warenkorb warenkorb = kunde.getWarenkorb();		
 		warenkorb.loeschen(art);
 		kunde.setWarenkorb(warenkorb);

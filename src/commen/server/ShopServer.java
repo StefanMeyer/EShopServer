@@ -82,13 +82,7 @@ public class ShopServer extends Server {
 		registerMethod("AUSWARENKORBLOESCHEN", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
-				try {
-					shop.ausWarenkorbloechen((Artikel) data.get(1), (Kunde) data.get(2));
-				} catch (ArtikelExistiertNichtException e) {
-					
-					e.printStackTrace();
-				}
-				sendMessage(new Datapackage("REPLY - AUSWARENKORBLOESCHEN"), socket);
+				sendMessage(new Datapackage("DATA",shop.ausWarenkorbloechen((Artikel) data.get(1), (Kunde) data.get(2))), socket);
 			}			
 		});
 		registerMethod("AENDEREARTIKEL", new Executable() {
@@ -178,8 +172,8 @@ public class ShopServer extends Server {
 		registerMethod("SETWARENKORB", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
-				shop.setWarenkorb((Kunde) data.get(1), (Warenkorb) data.get(2));
-				sendMessage(new Datapackage("REPLY - SETWARENKORB"), socket);
+				Kunde kunde = shop.setWarenkorb((Kunde) data.get(1), (Warenkorb) data.get(2));
+				sendMessage(new Datapackage("DATA",kunde), socket);
 			}			
 		});
 	}
