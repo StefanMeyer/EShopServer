@@ -103,35 +103,13 @@ public class FilePersistenceManager implements PersistenceManager {
 		int packung = Integer.parseInt(zeile);
 		boolean massengut;
 		
-		if(packung > 0) {
-			massengut = true;
-		}
-		else {
-			massengut = false;
-		}
-		
-		// neues Artikel-Objekt anlegen und zurückgeben
-		
-		if (!massengut) {
+		if(!(packung > 1)) {
 			return new Artikel(artname, artikelNummer, bestand, preis);
 		}
 		else {
 			return new Massengutartikel(artname, artikelNummer, bestand, preis, packung);
 		}
 	}
-		
-		
-		
-		
-		
-		/*
-		if(> 0) {
-			massengut = true;
-		}
-		else {
-			massengut = false;
-		}
-	*/
 	
 	/**
 	 * Methode zum Speichern eines Artikels

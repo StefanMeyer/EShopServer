@@ -5,12 +5,12 @@ Cola
 1
 Audi A6
 8928
-66
+63
 0.0
 1
 Badewanne
 8929
-73
+72
 0.0
 1
 MassengutArtikel_8930

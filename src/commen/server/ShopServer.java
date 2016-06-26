@@ -146,24 +146,6 @@ public class ShopServer extends Server {
 				sendMessage(new Datapackage("DATA",shop.pruefeKauf((Kunde) data.get(1))), socket); 
 			}			
 		});
-		registerMethod("SCHREIBEARTIKELDATEN", new Executable() {
-			@Override
-			public void run(Datapackage data, Socket socket) {
-				//TODO schreib mich
-			}			
-		});
-		registerMethod("SCHREIBESTATSDATEN", new Executable() {
-			@Override
-			public void run(Datapackage data, Socket socket) {
-				//TODO schreib mich
-			}			
-		});
-		registerMethod("SCHREIBEKUNDENDATEN", new Executable() {
-			@Override
-			public void run(Datapackage data, Socket socket) {
-				//TODO schreib mich
-			}			
-		});
 		registerMethod("GETWARENKORB", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
@@ -176,6 +158,42 @@ public class ShopServer extends Server {
 			public void run(Datapackage data, Socket socket) {
 				Kunde kunde = shop.setWarenkorb((Kunde) data.get(1), (Warenkorb) data.get(2));
 				sendMessage(new Datapackage("DATA",kunde), socket);
+			}			
+		});
+		registerMethod("SCHREIBEARTIKELDATEN", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				try {
+					shop.schreibeArtikeldaten();
+					sendMessage(new Datapackage("REPLY - SCHREIBEARTIKELDATEN"), socket);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}			
+		});
+		registerMethod("SCHREIBESTATSDATEN", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				try {
+					shop.schreibeStatsdaten();
+					sendMessage(new Datapackage("REPLY - SCHREIBESTATSDATEN"), socket);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}			
+		});
+		registerMethod("SCHREIBEKUNDENDATEN", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				try {
+					shop.schreibeKundendaten();
+					sendMessage(new Datapackage("REPLY - SCHREIBEKUNDENDATEN"), socket);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}			
 		});
 	}
