@@ -29,7 +29,6 @@ public class Warenkorb implements Serializable{
 
 	public void loeschen(Artikel artikel) {
 		inhalt.remove(artikel);
-		System.out.println(inhalt);
 	}
 
 	public void leeren() {

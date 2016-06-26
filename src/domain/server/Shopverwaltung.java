@@ -167,17 +167,21 @@ public class Shopverwaltung implements Serializable{
 	}
 
 	//Methode zur Kaufabwicklung
-	public Rechnung kaufAbwickeln(Kunde kaeufer) throws IOException{
-		
-		// aus Lager abbuchen (pruefen!)
-		
-		Rechnung rechnung = new Rechnung(kaeufer);
-
-		// Warenkorb leeren
-
+	public Rechnung rechnungErstellen(Kunde user) throws IOException{
+		Rechnung rechnung = new Rechnung(user);	
 		return rechnung;
 	}
-	
+    public Kunde kaufAbwickeln(Kunde user) throws IOException {
+		Set<Artikel> articles = user.getWarenkorb().getInhalt().keySet();
+		
+		for(Artikel artikel : articles) {
+			int anzahl = (Integer) user.getWarenkorb().getInhalt().get(artikel);
+			artikel.setBestand(artikel.getBestand() - anzahl);
+			schreibeArtikeldaten();
+		}		
+		user.getWarenkorb().leeren();
+		return user;    
+	}
 	//Artikel entfernen
 	public boolean entferneArtikel(int artnr) throws ArtikelExistiertNichtException, IOException {
 		// delegieren nach Artikelverwaltung

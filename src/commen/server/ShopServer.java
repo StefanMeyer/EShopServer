@@ -101,8 +101,8 @@ public class ShopServer extends Server {
 		registerMethod("KAUFABWICKELN", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
-				try {
-					shop.kaufAbwickeln((Kunde) data.get(1));
+				try {	
+					sendMessage(new Datapackage("DATA",shop.kaufAbwickeln((Kunde) data.get(1)),shop.rechnungErstellen((Kunde) data.get(1))), socket);
 				} catch (IOException e) {
 					
 					e.printStackTrace();
