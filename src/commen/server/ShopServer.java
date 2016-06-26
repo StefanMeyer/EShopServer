@@ -15,6 +15,7 @@ import domain.server.exceptions.ArtikelExistiertNichtException;
 import domain.server.exceptions.BestandUeberschrittenException;
 import valueobjects.Artikel;
 import valueobjects.Kunde;
+import valueobjects.Rechnung;
 import valueobjects.Warenkorb;
 
 public class ShopServer extends Server {
@@ -102,7 +103,9 @@ public class ShopServer extends Server {
 			@Override
 			public void run(Datapackage data, Socket socket) {
 				try {	
-					sendMessage(new Datapackage("DATA",shop.kaufAbwickeln((Kunde) data.get(1)),shop.rechnungErstellen((Kunde) data.get(1))), socket);
+					Rechnung rechnung = shop.rechnungErstellen((Kunde) data.get(1));
+					Kunde user = shop.kaufAbwickeln((Kunde) data.get(1));
+					sendMessage(new Datapackage("DATA",user,rechnung), socket);
 					//artikelliste ALLER clients Updaten
 					broadcastMessage(new Datapackage("NEWARTIKELDATA",shop.gibAlleArtikel()));
 				} catch (IOException | ArtikelExistiertNichtException e) {

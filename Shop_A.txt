@@ -6,7 +6,7 @@ Cola
 Audi A6
 8928
 63
-0.0
+150000.0
 1
 Badewanne
 8929
@@ -40,7 +40,7 @@ MassengutArtikel_8934
 4
 Artikel_8935
 8935
-70
+66
 0.0
 1
 Artikel_8937
@@ -145,7 +145,7 @@ MassengutArtikel_8956
 1
 Tisch
 1234
-10
+9
 10.0
 1
 Ball
