@@ -91,6 +91,8 @@ public class ShopServer extends Server {
 			public void run(Datapackage data, Socket socket) {
 				try {
 					shop.aendereArtikel((String) data.get(1), (int) data.get(2), (int) data.get(3), (float) data.get(4), (int) data.get(5));
+					//artikelliste ALLER clients Updaten
+					broadcastMessage(new Datapackage("NEWARTIKELDATA",shop.gibAlleArtikel()));					
 				} catch (ArtikelExistiertBereitsException | ArtikelExistiertNichtException e) {
 					
 					e.printStackTrace();

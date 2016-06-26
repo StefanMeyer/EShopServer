@@ -9,6 +9,7 @@ import domain.server.exceptions.BestandUeberschrittenException;
 import persistence.server.FilePersistenceManager;
 import persistence.server.PersistenceManager;
 import valueobjects.Artikel;
+import valueobjects.Massengutartikel;
 
 /**
  * Klasse zur Verwaltung von Artikeln.
@@ -66,16 +67,6 @@ public class Artikelverwaltung {
 		pm.close();
 	}
 	
-	/**
-	 * Methode zum Schreiben der Artikeldaten in eine Datei.
-	 * 
-	 * @param datei Datei, in die der Artikelbestand geschrieben werden soll
-	 * @throws IOException
-	 */
-
-	public void schreibeArtikel(String datei) throws IOException {
-		
-	}
 
 	/**
 	 * Methode, die einen Artikel an das Ende der Artikeliste einfuegt.
@@ -83,8 +74,6 @@ public class Artikelverwaltung {
 	 * @param einArtikel der einzufuegende Artikel
 	 * @throws ArtikelExistiertBereitsException wenn der Artikel bereits existiert
 	 */
-
-	//TODO Ereignisse hinzufuegen (extra txt-Datei), z.B. bei Bestand erhaelht usw. nach Tag filtern ...
 	
 	public void einfuegen(Artikel einArtikel)
 			throws ArtikelExistiertBereitsException {
@@ -146,20 +135,33 @@ public class Artikelverwaltung {
 	 * @param bestand
 	 * @param preis
 	 * @param packungsgroesse
+	 * @throws ArtikelExistiertBereitsException 
 	 */
-	public void aendereArtikel(String artikelname, int artikelnummer, int bestand, float preis, int packungsgroesse) {		
+	public void aendereArtikel(String artikelname, int artikelnummer, int bestand, float preis, int packungsgroesse) throws ArtikelExistiertBereitsException {		
 		for (Artikel testArtikel : artikelBestand) {
 			if (testArtikel.getNummer() == artikelnummer) {
-				testArtikel.setArtname(artikelname);
-				testArtikel.setPreis(preis);
-				//TODO umwandeln von normalen artikel in masengutartikel
-			/*	if (packungsgroesse > 0 ) {
-					testArtikel.setMassengut(true);	
-					testArtikel.setPackungsgroesse(packungsgroesse);
-				} */
-				testArtikel.setBestand(bestand);				
+				if (testArtikel instanceof Massengutartikel) {
+					if (packungsgroesse < 2) { //umwandeln von Massengut zu normalen artikel- nicht funktionell ;(
+						this.entfernen(artikelnummer);
+						Artikel a = new Artikel(artikelname, artikelnummer, bestand, preis);
+						this.einfuegen(a);
+					}
+				}else{	
+					if (packungsgroesse > 1) { //umwandeln von artikel zu Massengut- nicht funktionell ;(
+						this.entfernen(artikelnummer);
+						Artikel a = new Massengutartikel(artikelname, artikelnummer, bestand, preis, packungsgroesse);
+						this.einfuegen(a);
+					}else{	
+						testArtikel.setArtname(artikelname);
+						testArtikel.setPreis(preis);
+						testArtikel.setBestand(bestand);
+					}
+				} 				
 			}
-		}			
+		}
+		
+		System.out.println(artikelBestand);
+		
 	}
 	/**
 	 * Methode, die anhand eines Titels nach Artikeln sucht. Es wird eine Liste

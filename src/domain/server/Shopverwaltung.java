@@ -166,6 +166,10 @@ public class Shopverwaltung implements Serializable{
 		
 		for(Artikel artikel : articles) {
 			int anzahl = (Integer) user.getWarenkorb().getInhalt().get(artikel);
+			//massengut sonderfall
+			if (artikel instanceof Massengutartikel) {
+				anzahl = anzahl * ((Massengutartikel) artikel).getPackungsgroesse();
+			}
 			meineArtikel.aendereBestand(artikel.getNummer(), artikel.getBestand() - anzahl);
 			schreibeArtikeldaten();
 		}		
@@ -173,7 +177,13 @@ public class Shopverwaltung implements Serializable{
 		
 		return user;    
 	}
-	//Artikel entfernen
+	/** Entfernt artikel mit artnr aus dem artikelbestand
+	 * 
+	 * @param artnr 
+	 * @return
+	 * @throws ArtikelExistiertNichtException
+	 * @throws IOException
+	 */
 	public boolean entferneArtikel(int artnr) throws ArtikelExistiertNichtException, IOException {
 		// delegieren nach Artikelverwaltung
 		Artikel data = meineArtikel.artikelSuchen(artnr);
@@ -204,32 +214,56 @@ public class Shopverwaltung implements Serializable{
 		return meineArtikel.getSortierteArtikelnummern();
 	}
 	
-	//Einloggen eines Accounts
+	/**Loggt einen Account "name" mit "passwort" ein
+	 * 
+	 * @param name
+	 * @param passwort
+	 * @return eingelogten account
+	 * @throws AccountExistiertNichtException
+	 */
 	public Account loginAccount(String name, String passwort) throws AccountExistiertNichtException {
 		return meineAccounts.loginAccount(name, passwort);		
 	}
 	
-	//Ausloggen eines Accounts
-	public Account logoutAccount(String name, String passwort) {
-		return meineAccounts.logoutAccount(name, passwort);
-	}
-
-	//Bestand aendern
+	/** Ändert den bestand des artikels mit der artikelnummer "artklnummer"
+	 * 
+	 * @param artklnummer artikelnummer des zu verändernden Artikels
+	 * @param newBestand1 neuer bestand
+	 * @return geänderte artikel
+	 * @throws ArtikelExistiertNichtException
+	 */
 	public int aendereBestand(int artklnummer, int newBestand1) throws ArtikelExistiertNichtException {
 		Artikel data = meineArtikel.artikelSuchen(artklnummer);
 		meineStats.statupdate(artklnummer,data.getName(), newBestand1, LagerEreignisTyp.BESTAND_VERAENDERT);
 		return meineArtikel.aendereBestand(artklnummer, newBestand1);		
 	}
-	//Bestand aendern
+	/** ändert die Daten eines Artikels
+	 * 
+	 * @param artikelname
+	 * @param artikelnummer
+	 * @param bestand
+	 * @param preis
+	 * @param packungsgroesse
+	 * @throws ArtikelExistiertBereitsException
+	 * @throws ArtikelExistiertNichtException
+	 */
 	public void aendereArtikel(String artikelname, int artikelnummer,int  bestand,float preis, int packungsgroesse) throws ArtikelExistiertBereitsException, ArtikelExistiertNichtException {
 		Artikel data = meineArtikel.artikelSuchen(artikelnummer);
-		//bestand verändert? an stats weiterleiten
+		//bestand verändert? an stats weiterleiten 
 		if (data.getBestand() != bestand) meineStats.statupdate(artikelnummer,data.getName(), bestand, LagerEreignisTyp.BESTAND_VERAENDERT);
 		//artikeldaten ändern (lassen)
 		meineArtikel.aendereArtikel(artikelname,artikelnummer,bestand,preis,packungsgroesse);
 				
 	}	
-	
+	/** Fügt art in den Warenkorb ein.
+	 * 
+	 * @param art
+	 * @param anzahl
+	 * @param kunde
+	 * @return
+	 * @throws BestandUeberschrittenException
+	 * @throws ArtikelExistiertNichtException
+	 */
 	//Warenkorn einfuegen
 	public Kunde inWarenkorbEinfuegen(Artikel art, int anzahl, Kunde kunde) throws BestandUeberschrittenException, ArtikelExistiertNichtException {
 		Warenkorb warenkorb = kunde.getWarenkorb();		
