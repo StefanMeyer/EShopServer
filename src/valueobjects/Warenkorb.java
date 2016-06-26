@@ -28,7 +28,12 @@ public class Warenkorb implements Serializable{
 	}
 
 	public void loeschen(Artikel artikel) {
-		inhalt.remove(artikel);
+		//warum auch immer inhalt.remove(artikel); nicht funktioniert ..;/
+		for(Artikel art : inhalt.keySet()) {
+			if (art.getNummer() == artikel.getNummer()) {
+				inhalt.remove(art);	
+			}
+	    }
 	}
 
 	public void leeren() {
