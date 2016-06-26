@@ -156,12 +156,12 @@ public class Shopverwaltung implements Serializable{
 					}
 				}				
 			}
-			if (!fehlerliste.isEmpty()) {
+			/*if (!fehlerliste.isEmpty()) {
 				Set<Artikel> articlos = fehlerliste.keySet();
 				for(Artikel artikel : articlos) {
 					user.getWarenkorb().loeschen(artikel);
 				}
-			}
+			}*/
 		}	
 		return fehlerliste;		
 	}
@@ -171,12 +171,12 @@ public class Shopverwaltung implements Serializable{
 		Rechnung rechnung = new Rechnung(user);	
 		return rechnung;
 	}
-    public Kunde kaufAbwickeln(Kunde user) throws IOException {
+    public Kunde kaufAbwickeln(Kunde user) throws IOException, ArtikelExistiertNichtException {
 		Set<Artikel> articles = user.getWarenkorb().getInhalt().keySet();
 		
 		for(Artikel artikel : articles) {
 			int anzahl = (Integer) user.getWarenkorb().getInhalt().get(artikel);
-			artikel.setBestand(artikel.getBestand() - anzahl);
+			meineArtikel.aendereBestand(artikel.getNummer(), artikel.getBestand() - anzahl);
 			schreibeArtikeldaten();
 		}		
 		user.getWarenkorb().leeren();

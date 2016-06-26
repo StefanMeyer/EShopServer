@@ -103,7 +103,9 @@ public class ShopServer extends Server {
 			public void run(Datapackage data, Socket socket) {
 				try {	
 					sendMessage(new Datapackage("DATA",shop.kaufAbwickeln((Kunde) data.get(1)),shop.rechnungErstellen((Kunde) data.get(1))), socket);
-				} catch (IOException e) {
+					//artikelliste ALLER clients Updaten
+					broadcastMessage(new Datapackage("NEWARTIKELDATA",shop.gibAlleArtikel()));
+				} catch (IOException | ArtikelExistiertNichtException e) {
 					
 					e.printStackTrace();
 				}
