@@ -180,6 +180,7 @@ public class Shopverwaltung implements Serializable{
 			schreibeArtikeldaten();
 		}		
 		user.getWarenkorb().leeren();
+		
 		return user;    
 	}
 	//Artikel entfernen
