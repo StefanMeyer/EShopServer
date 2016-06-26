@@ -8,27 +8,11 @@ import java.io.Serializable;
 public class Artikel implements Serializable{
 
 	// Attribute zur Beschreibung der Artikel
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5351185368438928373L;
 	private String artname;
 	private int bestand;
 	private int nummer;
 	private float preis;
-	
-	public int getPackungsgroesse() {
-		return 1;
-	}
-
-	public boolean isMassengut() {
-		return massengut;
-	}
-
-	public void setMassengut(boolean massengut) {
-		this.massengut = massengut;
-	}
 
 	public String getArtname() {
 		return artname;
@@ -41,8 +25,6 @@ public class Artikel implements Serializable{
 	public void setNummer(int nummer) {
 		this.nummer = nummer;
 	}
-
-	private boolean massengut;
 
 	public Artikel(String artname, int artnr, int artbestand, float artpreis) {
 		this.nummer = artnr;

@@ -145,23 +145,13 @@ public class Shopverwaltung implements Serializable{
 			Set<Artikel> articles = pruefkorb.keySet();
 			for(Artikel artikel : articles) {
 				int anzahl = (Integer) pruefkorb.get(artikel);
+				if (artikel instanceof Massengutartikel) {
+					anzahl = anzahl * ((Massengutartikel) artikel).getPackungsgroesse();	
+				}
 				if ((artikel.getBestand() - anzahl) < 0) {
-					//user.getWarenkorb().loeschen(artikel);
 					fehlerliste.put(artikel, anzahl);
 				}
-				else {
-					if (artikel.getPackungsgroesse() > 0 && anzahl%artikel.getPackungsgroesse() != 0) {
-						//user.getWarenkorb().loeschen(artikel);
-						fehlerliste.put(artikel, anzahl);
-					}
-				}				
 			}
-			/*if (!fehlerliste.isEmpty()) {
-				Set<Artikel> articlos = fehlerliste.keySet();
-				for(Artikel artikel : articlos) {
-					user.getWarenkorb().loeschen(artikel);
-				}
-			}*/
 		}	
 		return fehlerliste;		
 	}
