@@ -102,6 +102,26 @@ public class ShopServer extends Server {
 				sendMessage(new Datapackage("REPLY - AENDEREARTIKEL"), socket);
 			}			
 		});
+		
+		registerMethod("ENTFERNEARTIKEL", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				try {
+					try {
+						shop.entferneArtikel((int)data.get(1));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//artikelliste ALLER clients Updaten
+					broadcastMessage(new Datapackage("NEWARTIKELDATA",shop.gibAlleArtikel()));					
+				} catch (ArtikelExistiertNichtException e) {
+					
+					e.printStackTrace();
+				}
+				sendMessage(new Datapackage("REPLY - ENTFERNEARTIKEL"), socket);
+			}			
+		});
 
 		registerMethod("KAUFABWICKELN", new Executable() {
 			@Override
