@@ -1,12 +1,15 @@
 package valueobjects;
 
+import java.io.Serializable;
 
-
-/** statistik für Artikel
+/** statistik fÃ¼r Artikel
  */
-
-public class Stats {
+public class Stats implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7927941904492085897L;
 	public enum LagerEreignisTyp {
 		NEU, BESTAND_VERAENDERT, GELOESCHT
 	}
