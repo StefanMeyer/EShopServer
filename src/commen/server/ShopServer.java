@@ -88,6 +88,7 @@ public class ShopServer extends Server {
 				sendMessage(new Datapackage("DATA",shop.ausWarenkorbloechen((Artikel) data.get(1), (Kunde) data.get(2))), socket);
 			}			
 		});
+		
 		registerMethod("AENDEREARTIKEL", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
@@ -138,13 +139,15 @@ public class ShopServer extends Server {
 				}
 			}			
 		});
+		
 		registerMethod("ERSTELLEGASTACCOUNT", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
 				Kunde kunde = shop.erstelleGastAccount();
 				sendMessage(new Datapackage("DATA",kunde), socket);
 			}			
-		});			
+		});	
+		
 		registerMethod("FUEGEKUNDENACCOUNTEIN", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
@@ -156,6 +159,19 @@ public class ShopServer extends Server {
 				}
 			}			
 		});
+		
+		registerMethod("FUEGEMITARBEITERACCOUNTEIN", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				try {
+					shop.fuegeMitarbeiterAccountEin((String) data.get(1),(String) data.get(2));
+				} catch (AccountExistiertBereitsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}			
+		});
+		
 		registerMethod("LOGINACCOUNT", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
@@ -223,6 +239,20 @@ public class ShopServer extends Server {
 				}
 			}			
 		});
+		
+		registerMethod("SCHREIBEMITARBEITERDATEN", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				try {
+					shop.schreibeKundendaten();
+					sendMessage(new Datapackage("REPLY - SCHREIBEMITARBEITERDATEN"), socket);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}			
+		});
+		
 		registerMethod("STATSSUCHEN", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {

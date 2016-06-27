@@ -225,11 +225,11 @@ public class Shopverwaltung implements Serializable{
 		return meineAccounts.loginAccount(name, passwort);		
 	}
 	
-	/** Ändert den bestand des artikels mit der artikelnummer "artklnummer"
+	/** ï¿½ndert den bestand des artikels mit der artikelnummer "artklnummer"
 	 * 
-	 * @param artklnummer artikelnummer des zu verändernden Artikels
+	 * @param artklnummer artikelnummer des zu verï¿½ndernden Artikels
 	 * @param newBestand1 neuer bestand
-	 * @return geänderte artikel
+	 * @return geï¿½nderte artikel
 	 * @throws ArtikelExistiertNichtException
 	 */
 	public int aendereBestand(int artklnummer, int newBestand1) throws ArtikelExistiertNichtException {
@@ -237,7 +237,7 @@ public class Shopverwaltung implements Serializable{
 		meineStats.statupdate(artklnummer,data.getName(), newBestand1, LagerEreignisTyp.BESTAND_VERAENDERT);
 		return meineArtikel.aendereBestand(artklnummer, newBestand1);		
 	}
-	/** ändert die Daten eines Artikels
+	/** ï¿½ndert die Daten eines Artikels
 	 * 
 	 * @param artikelname
 	 * @param artikelnummer
@@ -249,13 +249,13 @@ public class Shopverwaltung implements Serializable{
 	 */
 	public void aendereArtikel(String artikelname, int artikelnummer,int  bestand,float preis, int packungsgroesse) throws ArtikelExistiertBereitsException, ArtikelExistiertNichtException {
 		Artikel data = meineArtikel.artikelSuchen(artikelnummer);
-		//bestand verändert? an stats weiterleiten 
+		//bestand verï¿½ndert? an stats weiterleiten 
 		if (data.getBestand() != bestand) meineStats.statupdate(artikelnummer,data.getName(), bestand, LagerEreignisTyp.BESTAND_VERAENDERT);
-		//artikeldaten ändern (lassen)
+		//artikeldaten ï¿½ndern (lassen)
 		meineArtikel.aendereArtikel(artikelname,artikelnummer,bestand,preis,packungsgroesse);
 				
 	}	
-	/** Fügt art in den Warenkorb ein.
+	/** Fï¿½gt art in den Warenkorb ein.
 	 * 
 	 * @param art
 	 * @param anzahl
@@ -271,7 +271,7 @@ public class Shopverwaltung implements Serializable{
 		kunde.setWarenkorb(warenkorb);
 		return kunde;
 	}
-	//aus Warenkorb löschen
+	//aus Warenkorb lï¿½schen
 	public Kunde ausWarenkorbloechen(Artikel art, Kunde kunde) {
 		Warenkorb warenkorb = kunde.getWarenkorb();		
 		warenkorb.loeschen(art);
@@ -295,7 +295,7 @@ public class Shopverwaltung implements Serializable{
 	}
 	
 	//Schreibe Mitarbeiterdaten
-	public void schreibeMitarbeiterdaten() throws IOException {
+	public void schreibeMitarbeiterdaten() throws AccountExistiertBereitsException, IOException {
 		meineAccounts.schreibeMitarbeiterdaten(datei+"_Mitarbeiter.txt");
 	}
 	
