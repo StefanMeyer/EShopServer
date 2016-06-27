@@ -2,6 +2,7 @@ package commen.server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 import com.blogspot.debukkitsblog.Util.Datapackage;
 import com.blogspot.debukkitsblog.Util.Executable;
@@ -16,6 +17,7 @@ import domain.server.exceptions.BestandUeberschrittenException;
 import valueobjects.Artikel;
 import valueobjects.Kunde;
 import valueobjects.Rechnung;
+import valueobjects.Stats;
 import valueobjects.Warenkorb;
 
 public class ShopServer extends Server {
@@ -67,7 +69,7 @@ public class ShopServer extends Server {
 				sendMessage(new Datapackage("DATA",shop.sucheNachArtikel((String) data.get(1))), socket);
 			}			
 		});
-		//Artikel dem Warenkorb hinzufügen
+		//Artikel dem Warenkorb hinzufï¿½gen
 		registerMethod("INWARENKORBEINFUEGEN", new Executable() {
 			@Override
 			public void run(Datapackage data, Socket socket) {
@@ -199,6 +201,20 @@ public class ShopServer extends Server {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}			
+		});
+		registerMethod("STATSSUCHEN", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				List<Stats> stats = shop.statsSuchen((int) data.get(1));
+				sendMessage(new Datapackage("DATA",stats), socket);	
+			}			
+		});
+		registerMethod("GIBALLESTATS", new Executable() {
+			@Override
+			public void run(Datapackage data, Socket socket) {
+				List<Stats> stats = shop.gibAlleStats();
+				sendMessage(new Datapackage("DATA",stats), socket);			
 			}			
 		});
 	}
