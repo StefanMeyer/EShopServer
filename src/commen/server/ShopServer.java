@@ -153,6 +153,7 @@ public class ShopServer extends Server {
 			public void run(Datapackage data, Socket socket) {
 				try {
 					shop.fuegeKundenAccountEin((String) data.get(1),(String) data.get(2),(String) data.get(3), (int) data.get(4), (String) data.get(5));
+					sendMessage(new Datapackage("REPLY - FUEGEKUNDENACCOUNTEIN"), socket);
 				} catch (AccountExistiertBereitsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -165,6 +166,7 @@ public class ShopServer extends Server {
 			public void run(Datapackage data, Socket socket) {
 				try {
 					shop.fuegeMitarbeiterAccountEin((String) data.get(1),(String) data.get(2));
+					sendMessage(new Datapackage("REPLY - FUEGEMITARBEITERACCOUNTEIN"), socket);
 				} catch (AccountExistiertBereitsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
